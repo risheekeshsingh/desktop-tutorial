@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="bot.css">
+    <style>
+        /* Additional styles for Kannada font support */
+        body {
+            font-family: 'Poppins', 'Noto Sans Kannada', sans-serif;
+        }
+
+        /* Language selector styling */
+        .language-selector {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 12px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-selector a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .language-selector a.active {
+            color: #4e7ae7;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <div class="language-switcher" style="position: absolute; top: 10px; right: 10px; z-index: 1000;">
+        <!-- index.html -->
+        <!-- <h1>Welcome to My Website</h1> -->
+        <a href="index-hi.html">हिन्दी</a>
+        <a href="index-or.html">ଓଡ଼ିଆ</a>
+        <a href="index-ka.html">ಕನ್ನಡ</a>
+        <!-- Repeat for other languages -->
+    </div>
+
+
+    <div id="particles-js"></div>
+    <div class="floating-elements">
+        <div class="floating-element" style="top: 10%; left: 5%; font-size: 2rem;">❤️</div>
+        <div class="floating-element" style="top: 20%; left: 90%; font-size: 2.5rem;">💊</div>
+        <div class="floating-element" style="top: 40%; left: 7%; font-size: 3rem;">🏥</div>
+        <div class="floating-element" style="top: 70%; left: 85%; font-size: 2.2rem;">🩺</div>
+        <div class="floating-element" style="top: 85%; left: 10%; font-size: 2.8rem;">🌡️</div>
+        <div class="floating-element" style="top: 30%; left: 80%; font-size: 2.5rem;">🧬</div>
+    </div>
+
+    <button class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-heartbeat"></i> Health Chat</h2>
+                <p>Your medical assistant</p>
+            </div>
+
+            <!-- Added dark mode toggle inside the menu -->
+            <div class="menu-dark-mode-toggle">
+                <label class="switch">
+                    <input type="checkbox" id="menu-theme-toggle">
+                    <!-- <span class="slider round"></span> -->
+                </label>
+                <!-- <span>Dark Mode</span> -->
+            </div>
+
+
+            <div class="search-container">
+                <input type="text" id="sidebar-search" placeholder="Search topics...">
+            </div>
+
+            <button class="new-chat-btn" id="new-chat-btn">
+                <i class="fas fa-plus"></i> New Chat
+            </button>
+
+            <div class="sidebar-tabs">
+                <div class="sidebar-tab active" data-tab="chats">Chats</div>
+                <div class="sidebar-tab" data-tab="library">Library</div>
+            </div>
+
+            <div class="sidebar-content">
+                <div class="chat-list" id="chat-list">
+                    <div class="chat-item active">
+                        <div class="chat-title">COVID-19 Questions</div>
+                        <div class="chat-preview">What are the symptoms...</div>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-title">Flu Prevention</div>
+                        <div class="chat-preview">How can I prevent...</div>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-title">Measles Vaccination</div>
+                        <div class="chat-preview">Tell me about measles...</div>
+                    </div>
+                    <div class="chat-item">
+                        <div class="chat-title">General Health</div>
+                        <div class="chat-preview">What diseases can you...</div>
+                    </div>
+                </div>
+
+                <div class="library-content" id="library-content" style="display: none;">
+                    <!-- Disease Encyclopedia -->
+                    <div class="library-item" data-item="disease-encyclopedia">
+                        <i class="fas fa-book-medical"></i> Disease Encyclopedia
+                    </div>
+                    <div class="library-detail" id="disease-encyclopedia-detail">
+                        <h3><i class="fas fa-book-medical"></i> Disease Encyclopedia</h3>
+                        <p><strong>What it is:</strong> A simple book of sickness.</p>
+                        <p>It tells you what the sickness means, why it comes, how to stop it, and when to see a doctor.
+                        </p>
+                        <div class="remember-note">
+                            <i class="fas fa-lightbulb"></i> "Knowing early can save your life."
+                        </div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4> Good</h4>
+                                <p>Helps you understand sickness and get help fast.</p>
+                            </div>
+                            <div class="cons">
+                                <h4> Bad</h4>
+                                <p>If you try to treat yourself without a doctor, it may be risky.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medicine Guide -->
+                    <div class="library-item" data-item="medicine-guide">
+                        <i class="fas fa-pills"></i> Medicine Guide
+                    </div>
+                    <div class="library-detail" id="medicine-guide-detail">
+                        <h3><i class="fas fa-pills"></i> Medicine Guide</h3>
+                        <p>Tells you the name of medicine, why we use it, how to take it, and what problems it may
+                            cause.</p>
+                        <p>Always follow doctor's advice, don't share with others.</p>
+                        <div class="remember-note">
+                            <i class="fas fa-lightbulb"></i> "Right medicine, right way = quick recovery."
+                        </div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4> Good</h4>
+                                <p>Safe use of medicine.</p>
+                            </div>
+                            <div class="cons">
+                                <h4> Bad</h4>
+                                <p>Wrong use can harm your health.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- First Aid Help -->
+                    <div class="library-item" data-item="first-aid">
+                        <i class="fas fa-first-aid"></i> First Aid Help
+                    </div>
+                    <div class="library-detail" id="first-aid-detail">
+                        <h3><i class="fas fa-first-aid"></i> First Aid Help</h3>
+                        <p>Teaches what to do in small accidents: cuts, burns, choking, fainting, bites.</p>
+                        <p>Call a doctor if it is serious.</p>
+                        <div class="remember-note">
+                            <i class="fas fa-lightbulb"></i> "First aid helps, but doctor's care cures."
+                        </div>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4> Good</h4>
+                                <p>Can save life in emergency.</p>
+                            </div>
+                            <div class="cons">
+                                <h4> Bad</h4>
+                                <p>Only first aid is not enough for big problems.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="main-header">
+                <div>
+                    <h1><i class="fas fa-heartbeat"></i> Healthcare Assistant</h1>
+                    <p>Your personal health information resource</p>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span></span>
+                </button>
+            </header>
+
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="avatar-container">
+                        <div class="avatar">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                    </div>
+                    <h2>Chat with Health Assistant</h2>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <!-- <div class="message bot-message">
+                        Hi there! 🍀 I'm your healthcare assistant. I can provide information about diseases, symptoms, prevention methods, and vaccinations. How can I help you today?
+                    </div> -->
+                    <div class="suggested-questions" id="suggested-questions">
+                        <!-- Suggested questions will be added here by JavaScript -->
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="user-input" placeholder="Type your health question here...">
+                    <button id="send-btn"><i class="fas fa-paper-plane"></i> Send</button>
+                </div>
+            </div>
+
+            <!-- <footer>
+                <p>Disclaimer: This information is for educational purposes only. Always consult a healthcare
+                    professional for medical advice.</p>
+            </footer> -->
+        </div>
+    </div>
+
+    <!-- Particles.js for background animation -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function () {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ffffff" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#ffffff",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "grab" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    },
+                    modes: {
+                        grab: { distance: 140, line_linked: { opacity: 1 } },
+                        push: { particles_nb: 4 }
+                    }
+                },
+                retina_detect: true
+            });
+
+            // DOM elements
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            const suggestedContainer = document.getElementById('suggested-questions');
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarTabs = document.querySelectorAll('.sidebar-tab');
+            const chatList = document.getElementById('chat-list');
+            const libraryContent = document.getElementById('library-content');
+            const newChatBtn = document.getElementById('new-chat-btn');
+            const chatItems = document.querySelectorAll('.chat-item');
+            const libraryItems = document.querySelectorAll('.library-item');
+            const libraryDetails = document.querySelectorAll('.library-detail');
+            const searchInput = document.getElementById('sidebar-search');
+            const themeToggle = document.getElementById('theme-toggle');
+            const menuThemeToggle = document.getElementById('menu-theme-toggle');
+
+            // Track active library item
+            let activeLibraryItem = null;
+
+            // Suggested questions
+            const suggestedQuestions = [
+                "What are the symptoms of COVID-19?",
+                "How can I prevent the flu?",
+                "Tell me about measles vaccination",
+                "What are emergency signs for COVID-19?",
+                "Who is at risk for influenza?",
+                "What diseases can you tell me about?"
+            ];
+
+            // Theme toggle functionality
+            function toggleTheme() {
+                document.body.classList.toggle('dark-mode');
+                themeToggle.classList.toggle('dark');
+                menuThemeToggle.checked = document.body.classList.contains('dark-mode');
+
+                if (document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // Menu theme toggle functionality
+            menuThemeToggle.addEventListener('change', toggleTheme);
+
+            // Check for saved theme preference
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeToggle.classList.add('dark');
+                menuThemeToggle.checked = true;
+            }
+
+            // Add suggested questions to chat
+            function renderSuggestedQuestions() {
+                suggestedContainer.innerHTML = "";
+                suggestedQuestions.forEach(question => {
+                    const questionElem = document.createElement('div');
+                    questionElem.className = 'suggested-question';
+                    questionElem.textContent = question;
+                    questionElem.addEventListener('click', () => {
+                        userInput.value = question;
+                        sendMessage();
+                    });
+                    suggestedContainer.appendChild(questionElem);
+                });
+            }
+
+            // Initialize suggested questions
+            renderSuggestedQuestions();
+
+            // Toggle sidebar
+            menuToggle.addEventListener('click', () => {
+                if (window.innerWidth > 900) {
+                    // For big screens (desktop view)
+                    sidebar.classList.toggle('closed');
+
+                    if (sidebar.classList.contains('closed')) {
+                        // If sidebar is closed, show right arrow icon
+                        menuToggle.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                    } else {
+                        // If sidebar is open, show bars (menu) icon
+                        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                } else {
+                    // For small screens (mobile view)
+                    sidebar.classList.toggle('active');
+                }
+            });
+
+            // Search functionality
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+
+                if (searchTerm) {
+                    // Filter library items
+                    libraryItems.forEach(item => {
+                        const itemText = item.textContent.toLowerCase();
+                        if (itemText.includes(searchTerm)) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+
+                    // Filter chat items
+                    chatItems.forEach(item => {
+                        const itemText = item.textContent.toLowerCase();
+                        if (itemText.includes(searchTerm)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                } else {
+                    // Show all items if search is empty
+                    libraryItems.forEach(item => {
+                        item.style.display = 'flex';
+                    });
+                    chatItems.forEach(item => {
+                        item.style.display = 'block';
+                    });
+                }
+            });
+
+            // Sidebar tabs functionality
+            sidebarTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Set active tab
+                    sidebarTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    // Show appropriate content
+                    if (tab.dataset.tab === 'chats') {
+                        chatList.style.display = 'flex';
+                        libraryContent.style.display = 'none';
+                    } else {
+                        chatList.style.display = 'none';
+                        libraryContent.style.display = 'block';
+                    }
+                });
+            });
+
+            // Chat item selection
+            chatItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    chatItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                });
+            });
+
+            // Library item selection
+            libraryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const detailId = item.dataset.item + '-detail';
+
+                    // Hide all details
+                    libraryDetails.forEach(detail => {
+                        detail.style.display = 'none';
+                    });
+
+                    // Show selected detail
+                    const selectedDetail = document.getElementById(detailId);
+                    selectedDetail.style.display = 'block';
+
+                    // Update active item
+                    if (activeLibraryItem) {
+                        activeLibraryItem.classList.remove('active');
+                    }
+                    item.classList.add('active');
+                    activeLibraryItem = item;
+                });
+            });
+
+            // New chat button
+            newChatBtn.addEventListener('click', () => {
+                chatMessages.innerHTML = `
+                     <div class="message bot-message">
+                          Hi there! 🍀 I'm your healthcare assistant. I can provide information about diseases,  symptoms, prevention methods, and vaccinations. How can I help you today?
+                     </div>
+                `;
+                renderSuggestedQuestions();
+            });
+
+            // Send message function
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (!message) return;
+
+                // Add user message to chat
+                const userMessageElem = document.createElement('div');
+                userMessageElem.className = 'message user-message';
+                userMessageElem.textContent = message;
+                chatMessages.appendChild(userMessageElem);
+
+                // Clear input
+                userInput.value = '';
+
+                // Remove suggested questions temporarily
+                suggestedContainer.innerHTML = '';
+
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                // Simulate bot response after a short delay
+                setTimeout(() => {
+                    // Add bot response
+                    const botResponse = getBotResponse(message);
+                    const botMessageElem = document.createElement('div');
+                    botMessageElem.className = 'message bot-message';
+                    botMessageElem.innerHTML = botResponse;
+                    chatMessages.appendChild(botMessageElem);
+
+                    // Re-add suggested questions
+                    renderSuggestedQuestions();
+
+                    // Scroll to bottom again
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+
+            // Send button click event
+            sendBtn.addEventListener('click', sendMessage);
+
+            // Enter key press event
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Simple bot response function
+            function getBotResponse(message) {
+                message = message.toLowerCase();
+
+                if (message.includes('covid') || message.includes('corona')) {
+                    return `
+                        <strong>COVID-19 Information:</strong><br>
+                        COVID-19 is a respiratory illness caused by the SARS-CoV-2 virus.<br><br>
+                        <strong>Symptoms:</strong> Fever, cough, shortness of breath, fatigue, loss of taste or smell.<br>
+                        <strong>Prevention:</strong> Vaccination, mask-wearing, hand hygiene, social distancing.<br>
+                        <strong>Emergency signs:</strong> Trouble breathing, persistent chest pain, confusion, inability to wake or stay awake.<br><br>
+                        For more information, visit the <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019" target="_blank">WHO COVID-19 page</a>.
+                    `;
+                }
+                else if (message.includes('flu') || message.includes('influenza')) {
+                    return `
+                        <strong>Influenza (Flu) Information:</strong><br>
+                        Influenza is a viral infection that attacks your respiratory system.<br><br>
+                        <strong>Symptoms:</strong> Fever, muscle aches, cough, congestion, fatigue.<br>
+                        <strong>Prevention:</strong> Annual vaccination, hand washing, avoiding sick people.<br>
+                        <strong>At-risk groups:</strong> Young children, older adults, pregnant women, people with chronic illnesses.<br><br>
+                        Most people recover within 1-2 weeks, but complications can occur.
+                    `;
+                } else if (message.includes('measles')) {
+                    return `
+                        <strong>Measles Information:</strong><br>
+                        Measles is a highly contagious viral disease that can be serious for small children.<br><br>
+                        <strong>Symptoms:</strong> High fever, cough, runny nose, red eyes, rash that spreads.<br>
+                        <strong>Prevention:</strong> MMR (measles, mumps, rubella) vaccination.<br>
+                        <strong>Complications:</strong> Can include ear infections, pneumonia, encephalitis.<br><br>
+                        Vaccination is the best protection against measles.
+                    `;
+                } else if (message.includes('cold, ') || message.includes('common cold ')) {
+                    return "The common cold is a viral infection of your nose and throat. Symptoms are usually milder than the flu and include a runny nose, sneezing, congestion, sore throat, and a mild cough.     ";
+                }
+                else if (message.includes('covid') || message.includes('coronavirus')) {
+                    return "COVID-19 is an infectious disease caused by the SARS-CoV-2 virus. Symptoms can range from mild to severe and include fever, cough, tiredness, loss of taste or smell, sore throat, and difficulty breathing.    .";
+                }
+                else if (message.includes('headache')) {
+                    return "A headache is pain in any region of the head. It can be a sign of stress, dehydration, eyestrain, or an underlying medical condition. Common types include tension headaches and migraines.";
+                }
+                else if (message.includes('fever')) {
+                    return "A fever is a temporary increase in body temperature, often due to an illness. It's a sign that your body is fighting off an infection. A fever is generally defined as a temperature above 100.4°F (38°C).";
+                }
+
+                else if (message.includes('sore throat')) {
+                    return "A sore throat is pain, scratchiness or irritation of the throat that often worsens when you swallow. It's most often caused by viral infections like colds or the flu, but can also be bacterial (strep throat).";
+                }
+                else if (message.includes('allergy') || message.includes('allergies')) {
+                    return "Allergies occur when your immune system reacts to a foreign substance. Common symptoms include sneezing, itching, runny nose, watery eyes, and skin rashes (like hives).";
+                }
+                else if (message.includes('asthma')) {
+                    return "Asthma is a condition in which your airways narrow and swell, producing extra mucus. This can make breathing difficult and trigger coughing, wheezing (a whistling sound when you breathe), and shortness of breath.";
+                }
+                else if (message.includes('stomach flu') || message.includes('gastroenteritis')) {
+                    return "Gastroenteritis, often called 'stomach flu,' is an intestinal infection. Symptoms include diarrhea, stomach cramps, nausea, vomiting, and sometimes a fever. It is not related to influenza.";
+                }
+                else if (message.includes('pneumonia')) {
+                    return "Pneumonia is an infection that inflames the air sacs in one or both lungs. The air sacs may fill with fluid, causing a cough with phlegm, fever, chills, and difficulty breathing.";
+                }
+                else if (message.includes('uti') || message.includes('urinary tract infection')) {
+                    return "A UTI is an infection in any part of your urinary system. Symptoms often include a strong, persistent urge to urinate, a burning sensation when urinating, and cloudy or strong-smelling urine.";
+                }
+                else if (message.includes('strep throat')) {
+                    return "Strep throat is a bacterial infection that causes inflammation and pain in the throat. Key symptoms include a sudden, severe sore throat, painful swallowing, fever, and swollen lymph nodes. It requires antibiotics.";
+                }
+                else if (message.includes('migraine')) {
+                    return "A migraine is a headache that can cause severe throbbing pain, often on one side of the head. It's often accompanied by nausea, vomiting, and extreme sensitivity to light and sound.";
+                }
+                else if (message.includes('pink eye') || message.includes('conjunctivitis')) {
+                    return "Pink eye is an inflammation of the conjunctiva. It causes redness, itching, and a gritty feeling in one or both eyes. It can be highly contagious and is often caused by a virus or bacteria.";
+                }
+                else if (message.includes('sinus infection') || message.includes('sinusitis')) {
+                    return "Sinusitis is an inflammation of the sinuses. It can cause facial pressure, pain, a stuffy or runny nose (often with thick yellow or green discharge), loss of smell, and a cough.";
+                }
+
+                if (message.includes('measles')) {
+                    return "Measles is a highly contagious viral disease. Symptoms include fever, cough, runny nose, inflamed eyes, and a red, blotchy skin rash. Vaccination is the best prevention.";
+                }
+                if (message.includes('emergency signs')) {
+                    return "Emergency signs for COVID-19 include trouble breathing, persistent chest pain or pressure, new confusion, inability to stay awake, and bluish lips or face. Seek immediate medical attention if these occur.";
+                }
+
+                else if (message.includes('vaccin')) {
+                    return `
+                        <strong>Vaccination Information:</strong><br>
+                        Vaccines help your immune system recognize and fight pathogens.<br><br>
+                        <strong>Common vaccines:</strong> MMR, polio, hepatitis, influenza, COVID-19.<br>
+                        <strong>Benefits:</strong> Prevent serious illnesses, protect vulnerable populations.<br>
+                        <strong>Safety:</strong> Vaccines undergo rigorous testing before approval.<br><br>
+                        Talk to your healthcare provider about which vaccines are recommended for you.
+                    `;
+                } else if (message.includes('symptom')) {
+                    return `
+                        <strong>Symptom Checker Guidance:</strong><br>
+                        I can provide general information about symptoms, but I'm not a substitute for professional medical advice.<br><br>
+                        Please describe your symptoms in detail, and I'll provide information about possible conditions.<br><br>
+                        <strong>Remember:</strong> Always consult a healthcare professional for proper diagnosis and treatment.
+                    `;
+                } else {
+                    return `
+                        I'm here to help with health-related questions! I can provide information about:<br><br>
+                        • Diseases and conditions<br>
+                        • Symptoms and warning signs<br>
+                        • Prevention methods<br>
+                        • Vaccinations and immunizations<br>
+                        • General health advice<br><br>
+                        Please ask me a specific question about health, and I'll do my best to provide helpful information.
+                    `;
+                }
+            }
+        });
+    </script>
+
+
+
+
+
+    <!-- <title>Font Families</title>
+<style type=""text/css">
+div <p class="">font-family:"times new roman";font-size:30pt:</p>;
+p{font-size: 30pt; font-variant:small-caps;}
+</style> -->
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>
