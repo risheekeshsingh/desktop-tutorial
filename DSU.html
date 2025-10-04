@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Course Materials</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #2a6fdb 0%, #1a4e9e 100%);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* College section styling */
+        #college {
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        #college h2 {
+            text-align: center;
+            color: #2a6fdb;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eaeaea;
+        }
+        
+        .year {
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .year-header {
+            background: linear-gradient(to right, #2a6fdb, #3a7ee7);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .year-header:hover {
+            background: linear-gradient(to right, #1a5bbd, #2a6fdb);
+        }
+        
+        .year-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+        
+        .toggle-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        
+        .year-content {
+            display: none;
+            padding: 15px;
+            background: #f9fafc;
+        }
+        
+        .semester {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .semester h4 {
+            color: #2a6fdb;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e0e0e0;
+            font-size: 1.2rem;
+        }
+        
+        .subject-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .subject-item {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f9f9f9;
+            border-radius: 6px;
+            border-left: 4px solid #2a6fdb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .subject-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #f0f5ff;
+        }
+        
+        .subject-name {
+            font-weight: 500;
+        }
+        
+        .file-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .file-link {
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .pdf-link {
+            background-color: #ff4d4d;
+            color: white;
+        }
+        
+        .pdf-link:hover {
+            background-color: #e60000;
+        }
+        
+        .ppt-link {
+            background-color: #ff9900;
+            color: white;
+        }
+        
+        .ppt-link:hover {
+            background-color: #e68600;
+        }
+        
+        .no-files {
+            color: #888;
+            font-style: italic;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .subject-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .file-links {
+                margin-top: 10px;
+                align-self: flex-end;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .year-header h3 {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Animation for expanding/collapsing */
+        .year.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .year.active .year-content {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>College Course Materials</h1>
+            <p class="description">Access all your course materials including lecture notes, presentations, and resources organized by year and semester.</p>
+        </header>
+        
+        <section id="college">
+            <h2>College Courses</h2>
+            
+            <!-- ================= FIRST YEAR ================= -->
+            <div class="year active">
+                <div class="year-header">
+                    <h3>First Year</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="year-content">
+                    <div class="semester">
+                        <h4>Sem 1 chem</h4>
+                        <ul class="subject-list">
+                            <!-- math -->
+                            <li class="subject-item">
+                                <span class="subject-name">Mathematics-I</span>
+                                <div class="math.png">
+                                    <a href="MATH.PNG" target="_blank" class="pdf file">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/math1.pptx" target="_blank" class="file-link ppt-link">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--karnataka file  -->
+                            <li class="subject-item">
+                                <span class="subject-name">karnataka</span>
+                                <div class="karnn1.pdf ">
+                                    <a href="KARNN1.PDF" target="_blank" class="file pdf">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/math1.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- mech -->
+                            <li class="subject-item">
+                                <span class="subject-name">Mechanical</span>
+                                <div class="file-links">
+                                    <a href="MECH1.PNG" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/math1.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- oops -->
+                            <li class="subject-item">
+                                <span class="subject-name">OOPs</span>
+                                <div class="oops1.png">
+                                    <a href="OOPS1.PNG" target="_blank" class="file pdf">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/math1.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- ee -->
+                            <li class="subject-item">
+                                <span class="subject-name">Electrical(ee)</span>
+                                <div class="ee1.png">
+                                    <a href="EE1.PNG" target="_blank" class="file pdf">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/math1.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- chem -->
+                            <li class="subject-item">
+                                <span class="subject-name">Chemistry</span>
+                                <div class="chem.png">
+                                    <a href="CHEM.PNG/" target="_blank" class="file-link pdf">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/physics.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- em -->
+                            <li class="subject-item">
+                                <span class="subject-name">Engineering Mechanics(em)</span>
+                                <div class="em1.pdf">
+                                    <a href="EM1.PNG/" target="_blank" class="file-link pdf">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/mechanics.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- Environmental -->
+                             <li class="subject-item">
+                                <span class="subject-name">Environmental</span>
+                                <div class="evs1.png">
+                                    <a href="EVS1.PNG" target="_blank" class="file pdf">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/mechanics.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- english -->
+                             <li class="subject-item">
+                                <span class="subject-name">ENGLISH</span>
+                                <div class="eng1.png">
+                                    <a href="ENG1PNG" target="_blank" class="file pdf">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/mechanics.pptx" target="_blank" class="file-link ppt-link">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            
+                            
+                        </ul>
+                    </div>
+
+                    <div class="semester">
+                        <h4>Semester 2 physics</h4>
+                        <ul class="subject-list">
+                            <!-- c prog -->
+                            <li class="subject-item">
+                                <span class="subject-name">C Programming</span>
+                                <div class="c class.pdf">
+                                    <a href="C CLASS.PDF" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/cprogramming.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- math -->
+                            <li class="subject-item">
+                                <span class="subject-name">Math</span>
+                                <div class="math2.pdf">
+                                    <a href="MATH2.PDF" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/cprogramming.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- ec -->
+                            <li class="subject-item">
+                                <span class="subject-name">EC</span>
+                                <div class="ec2.pdf">
+                                    <a href="EC2.PDF" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/cprogramming.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--  -->
+                            <li class="subject-item">
+                                <span class="subject-name">BIO</span>
+                                <div class="bio2.pdf">
+                                    <a href="BIO2.PNG.index.html" target="_blank" class="file-link pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <a href="files/cprogramming.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> 
+                                </div>
+                            </li>
+                            <!-- physics -->
+                            <li class="subject-item">
+                                <span class="subject-name">physics</span>
+                                <div class="phy2.pdf">
+                                    <a href="PHY.PDF" target="_blank" class="file-link pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/electronics.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- law -->
+                            <li class="subject-item">
+                                <span class="subject-name">law</span>
+                                <div class="law.pdf-link">
+                                    <a href="LAW.PDF" target="_blank" class="file-link pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/envstudies.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--egdt  -->
+                            <li class="subject-item">
+                                <span class="subject-name">egdt</span>
+                                <div class="egdt.pdf">
+                                    <a href="EGDT.PNG" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/envstudies.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--  -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= SECOND YEAR ================= -->
+            <div class="year">
+                <div class="year-header">
+                    <h3>Second Year</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="year-content">
+                    <div class="semester">
+                        <h4>Semester 3</h4>
+                        <ul class="subject-list">
+                            <!-- tnt -->
+                            <li class="subject-item">
+                                <span class="subject-name">TNT</span>
+                                <div class="tnt3.png">
+                                    <a href="TNT3.PNG/" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/discrete.pptx" target="_blank" class="file pp">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- ds -->
+                            <li class="subject-item">
+                                <span class="subject-name">Data Structures</span>
+                                <div class="ds.png">
+                                    <a href="DS.PNG" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/datastructures.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- java -->
+                            <li class="subject-item">
+                                <span class="subject-name">Java</span>
+                                <div class="file-links">
+                                    <a href="files/java.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/java.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--  -->
+                            <!-- dld -->
+                             <li class="subject-item">
+                                <span class="subject-name">DLD</span>
+                                <div class="DLD3.png">
+                                    <a href="DLD3.PNG/" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/java.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- dmgt -->
+                             <li class="subject-item">
+                                <span class="subject-name">DMGT</span>
+                                <div class="DGMT3png">
+                                    <a href="DGMT3PNG/" target="_blank" class="file-link pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/java.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!-- fsd -->
+                             <li class="subject-item">
+                                <span class="subject-name">FSD</span>
+                                <div class="fsd3.png">
+                                    <a href="FSD3.PNG" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/java.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--  -->
+                        </ul>
+                    </div>
+
+                    <div class="semester">
+                        <h4>Semester 4</h4>
+                        <ul class="subject-list">
+                            <!--  -->
+                            <li class="subject-item">
+                                <span class="subject-name">Operating Systems</span>
+                                <div class="file-links">
+                                    <a href="files/os.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <a href="files/os.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <!--  -->
+                            <li class="subject-item">
+                                <span class="subject-name">DBMS</span>
+                                <div class="file-links">
+                                    <a href="files/dbms.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <a href="files/dbms.pptx" target="_blank" class="file-link ppt">
+                                        <span>PPT</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <!--  -->
+                            <li class="subject-item">
+                                <span class="subject-name">Computer Networks</span>
+                                <div class="file-links">
+                                    <a href="files/networks.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <a href="files/networks.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <!--  -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= THIRD YEAR ================= -->
+            <div class="year">
+                <div class="year-header">
+                    <h3>Third Year</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="year-content">
+                    <div class="semester">
+                        <h4>Semester 5</h4>
+                        <ul class="subject-list">
+                            <!--  -->
+                            <li class="subject-item">
+                                <span class="subject-name">Compiler Design</span>
+                                <div class="file-links">
+                                    <a href="files/compiler.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/compiler.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--  -->
+                            <li class="subject-item">
+                                <span class="subject-name">Software Engineering</span>
+                                <div class="file-links">
+                                    <a href="files/software.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/software.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--  -->
+                            <li class="subject-item">
+                                <span class="subject-name">Machine Learning</span>
+                                <div class="file-links">
+                                    <a href="files/ml.pdf" target="_blank" class="file pdf  ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/ml.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--  -->
+                        </ul>
+                    </div>
+
+                    <div class="semester">
+                        <h4>Semester 6</h4>
+                        <ul class="subject-list">
+                            <li class="subject-item">
+                                <span class="subject-name">Artificial Intelligence</span>
+                                <div class="file-links">
+                                    <a href="files/ai.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/ai.pptx" target="_blank" class= ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--  -->
+                            <li class="subject-item">
+                                <span class="subject-name">Web Technologies</span>
+                                <div class="file-links">
+                                    <a href="files/webtech.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/webtech.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--  -->
+                            <li class="subject-item">
+                                <span class="subject-name">Cloud Computing</span>
+                                <div class="file-links">
+                                    <a href="files/cloud.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <!-- <a href="files/cloud.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a> -->
+                                </div>
+                            </li>
+                            <!--  -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= FOURTH YEAR ================= -->
+            <div class="year">
+                <div class="year-header">
+                    <h3>Fourth Year</h3>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="year-content">
+                    <div class="semester">
+                        <h4>Semester 7</h4>
+                        <ul class="subject-list">
+                            <li class="subject-item">
+                                <span class="subject-name">Big Data Analytics</span>
+                                <div class="file-links">
+                                    <a href="files/bigdata.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <a href="files/bigdata.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="subject-item">
+                                <span class="subject-name">IoT</span>
+                                <div class="file-links">
+                                    <a href="files/iot.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <a href="files/iot.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="subject-item">
+                                <span class="subject-name">Cyber Security</span>
+                                <div class="file-links">
+                                    <a href="files/cyber.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <a href="files/cyber.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="semester">
+                        <h4>Semester 8</h4>
+                        <ul class="subject-list">
+                            <li class="subject-item">
+                                <span class="subject-name">Project Work</span>
+                                <div class="file-links">
+                                    <a href="files/project.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <a href="files/project.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="subject-item">
+                                <span class="subject-name">Seminar</span>
+                                <div class="file-links">
+                                    <a href="files/seminar.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <a href="files/seminar.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="subject-item">
+                                <span class="subject-name">Internship</span>
+                                <div class="file-links">
+                                    <a href="files/internship.pdf" target="_blank" class="file pdf ppt">
+                                        <span>PDF</span>
+                                    </a>
+                                    <a href="files/internship.pptx" target="_blank" class="file ppt">
+                                        <span>PPT</span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>© 2023 College Course Materials Repository | All resources are for educational purposes only</p>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript to handle the expand/collapse functionality
+        document.querySelectorAll('.year-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const year = header.parentElement;
+                year.classList.toggle('active');
+            });
+        });
+        
+        // Optional: Keep first year expanded by default
+        document.querySelector('.year').classList.add('active');
+    </script>
+</body>
+</html>
